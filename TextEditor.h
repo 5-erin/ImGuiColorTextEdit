@@ -10,8 +10,8 @@
 #include <thread>
 #include <map>
 #include <regex>
-#include <imgui/imgui.h>
-#include <SHADERed/Objects/SPIRVParser.h>
+#define IMGUI_DEFINE_MATH_OPERATORS
+#include <imgui/imgui.h> // for imGui::GetCurrentWindow(), ImGui types
 
 class TextEditor {
 public:
@@ -118,20 +118,20 @@ public:
 
 	struct Shortcut {
 		// 0 - not used, 1 - used
-		bool Alt;
-		bool Ctrl;
-		bool Shift;
+		bool Alt = false;
+		bool Ctrl = false;
+		bool Shift = false;
 
 		// -1 - not used, everything else: Win32 VK_ code
-		int Key1;
-		int Key2;
+		ImGuiKey Key1 = ImGuiKey_None;
+		ImGuiKey Key2 = ImGuiKey_None;
 
-		Shortcut(int vk1 = -1, int vk2 = -2, bool alt = 0, bool ctrl = 0, bool shift = 0)
-				: Key1(vk1)
-				, Key2(vk2)
-				, Alt(alt)
+		Shortcut(ImGuiKey vk1 = ImGuiKey_None, ImGuiKey vk2 = ImGuiKey_None, bool alt = false, bool ctrl = false, bool shift = false)
+				: Alt(alt)
 				, Ctrl(ctrl)
 				, Shift(shift)
+				, Key1(vk1)
+				, Key2(vk2)
 		{
 		}
 	};
@@ -410,10 +410,10 @@ public:
 	inline void SetHighlightLine(bool s) { mHighlightLine = s; }
 	inline void SetCompleteBraces(bool s) { mCompleteBraces = s; }
 	inline void SetHorizontalScroll(bool s) { mHorizontalScroll = s; }
-	inline void SetSmartPredictions(bool s) { mAutocomplete = s; }
+	//inline void SetSmartPredictions(bool s) { mAutocomplete = s; }
 	inline void SetFunctionDeclarationTooltip(bool s) { mFunctionDeclarationTooltipEnabled = s; }
 	inline void SetFunctionTooltips(bool s) { mFuncTooltips = s; }
-	inline void SetActiveAutocomplete(bool cac) { mActiveAutocomplete = cac; }
+	//inline void SetActiveAutocomplete(bool cac) { mActiveAutocomplete = cac; }
 	inline void SetScrollbarMarkers(bool markers) { mScrollbarMarkers = markers; }
 	inline void SetSidebarVisible(bool s) { mSidebar = s; }
 	inline void SetSearchEnabled(bool s) { mHasSearch = s; }
@@ -438,43 +438,43 @@ public:
 	void ColorizeRange(int aFromLine = 0, int aToLine = 0);
 	void ColorizeInternal();
 
-	inline void ClearAutocompleteData() 
-	{
-		mACFunctions.clear();
-		mACUserTypes.clear();
-		mACUniforms.clear();
-		mACGlobals.clear();
-	}
-	inline void ClearAutocompleteEntries()
-	{
-		mACEntries.clear();
-		mACEntrySearch.clear();
-	}
-	inline const std::unordered_map<std::string, ed::SPIRVParser::Function>& GetAutocompleteFunctions() { return mACFunctions; }
-	inline const std::unordered_map<std::string, std::vector<ed::SPIRVParser::Variable>>& GetAutocompleteUserTypes() { return mACUserTypes; }
-	inline const std::vector<ed::SPIRVParser::Variable>& GetAutocompleteUniforms() { return mACUniforms; }
-	inline const std::vector<ed::SPIRVParser::Variable>& GetAutocompleteGlobals() { return mACGlobals; }
-	inline void SetAutocompleteFunctions(const std::unordered_map<std::string, ed::SPIRVParser::Function>& funcs)
-	{
-		mACFunctions = funcs;
-	}
-	inline void SetAutocompleteUserTypes(const std::unordered_map<std::string, std::vector<ed::SPIRVParser::Variable>>& utypes)
-	{
-		mACUserTypes = utypes;
-	}
-	inline void SetAutocompleteUniforms(const std::vector<ed::SPIRVParser::Variable>& unis)
-	{
-		mACUniforms = unis;
-	}
-	inline void SetAutocompleteGlobals(const std::vector<ed::SPIRVParser::Variable>& globs)
-	{
-		mACGlobals = globs;
-	}
-	inline void AddAutocompleteEntry(const std::string& search, const std::string& display, const std::string& value)
-	{
-		mACEntrySearch.push_back(search);
-		mACEntries.push_back(std::make_pair(display, value));
-	}
+	//inline void ClearAutocompleteData() 
+	//{
+	//	mACFunctions.clear();
+	//	mACUserTypes.clear();
+	//	mACUniforms.clear();
+	//	mACGlobals.clear();
+	//}
+	//inline void ClearAutocompleteEntries()
+	//{
+	//	mACEntries.clear();
+	//	mACEntrySearch.clear();
+	//}
+	//inline const std::unordered_map<std::string, ed::SPIRVParser::Function>& GetAutocompleteFunctions() { return mACFunctions; }
+	//inline const std::unordered_map<std::string, std::vector<ed::SPIRVParser::Variable>>& GetAutocompleteUserTypes() { return mACUserTypes; }
+	//inline const std::vector<ed::SPIRVParser::Variable>& GetAutocompleteUniforms() { return mACUniforms; }
+	//inline const std::vector<ed::SPIRVParser::Variable>& GetAutocompleteGlobals() { return mACGlobals; }
+	//inline void SetAutocompleteFunctions(const std::unordered_map<std::string, ed::SPIRVParser::Function>& funcs)
+	//{
+	//	mACFunctions = funcs;
+	//}
+	//inline void SetAutocompleteUserTypes(const std::unordered_map<std::string, std::vector<ed::SPIRVParser::Variable>>& utypes)
+	//{
+	//	mACUserTypes = utypes;
+	//}
+	//inline void SetAutocompleteUniforms(const std::vector<ed::SPIRVParser::Variable>& unis)
+	//{
+	//	mACUniforms = unis;
+	//}
+	//inline void SetAutocompleteGlobals(const std::vector<ed::SPIRVParser::Variable>& globs)
+	//{
+	//	mACGlobals = globs;
+	//}
+	//inline void AddAutocompleteEntry(const std::string& search, const std::string& display, const std::string& value)
+	//{
+	//	mACEntrySearch.push_back(search);
+	//	mACEntries.push_back(std::make_pair(display, value));
+	//}
 	
 	static const std::vector<Shortcut> GetDefaultShortcuts();
 	static const Palette& GetDarkPalette();
@@ -607,10 +607,10 @@ private:
 	TextEditor::Coordinates mFunctionDeclarationCoord;
 	bool mFunctionDeclarationTooltip;
 	std::string mFunctionDeclaration;
-	void mOpenFunctionDeclarationTooltip(const std::string& obj, TextEditor::Coordinates coord);
+	//void mOpenFunctionDeclarationTooltip(const std::string& obj, TextEditor::Coordinates coord);
 
-	std::string mBuildFunctionDef(const std::string& func, const std::string& lang);
-	std::string mBuildVariableType(const ed::SPIRVParser::Variable& var, const std::string& lang);
+	//std::string mBuildFunctionDef(const std::string& func, const std::string& lang);
+	//std::string mBuildVariableType(const ed::SPIRVParser::Variable& var, const std::string& lang);
 
 	float mLineSpacing;
 	Lines mLines;
@@ -648,6 +648,7 @@ private:
 	std::vector<int> mSnippetTagID;
 	std::vector<bool> mSnippetTagHighlight;
 	int mSnippetTagSelected, mSnippetTagLength, mSnippetTagPreviousLength;
+	/*
 	std::string mAutcompleteParse(const std::string& str, const Coordinates& start);
 	void mAutocompleteSelect();
 
@@ -667,6 +668,7 @@ private:
 	bool mACSwitched;		// if == true then allow selection with enter
 	std::string mACObject;	// if mACObject is not empty, it means user typed '.' -> suggest struct members and methods for mACObject
 	Coordinates mACPosition;
+	*/
 
 	std::vector<Shortcut> m_shortcuts;
 
