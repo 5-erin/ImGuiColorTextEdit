@@ -118,9 +118,9 @@ public:
 
 	struct Shortcut {
 		// 0 - not used, 1 - used
-		bool Alt = false;
-		bool Ctrl = false;
-		bool Shift = false;
+		int Alt = false;
+		int Ctrl = false;
+		int Shift = false;
 
 		// -1 - not used, everything else: Win32 VK_ code
 		ImGuiKey Key1 = ImGuiKey_None;
@@ -302,6 +302,10 @@ public:
 
 	TextEditor();
 	~TextEditor();
+
+	TextEditor& operator =(const TextEditor&) = default;
+
+	TextEditor(const TextEditor&) = default;
 
 	void SetLanguageDefinition(const LanguageDefinition& aLanguageDef);
 	const LanguageDefinition& GetLanguageDefinition() const { return mLanguageDefinition; }
@@ -522,7 +526,6 @@ private:
 	{
 	public:
 		UndoRecord() {}
-		~UndoRecord() {}
 
 		UndoRecord(
 			const std::string& aAdded,
