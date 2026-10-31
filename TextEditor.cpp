@@ -3204,7 +3204,7 @@ void TextEditor::Render(const char* aTitle, const ImVec2& aSize, bool aBorder)
 	if (mHandleKeyboardInputs)
 	{
 		HandleKeyboardInputs();
-		ImGui::PushTabStop(true);
+		ImGui::PushItemFlag(ImGuiItemFlags_NoTabStop, false);
 	}
 
 	if (mHandleMouseInputs)
@@ -3556,7 +3556,7 @@ void TextEditor::Render(const char* aTitle, const ImVec2& aSize, bool aBorder)
 	}
 
 	if (mHandleKeyboardInputs)
-		ImGui::PopTabStop();
+		ImGui::PopItemFlag();
 
 	if (!mIgnoreImGuiChild)
 		ImGui::EndChild();
